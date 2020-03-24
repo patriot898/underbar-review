@@ -7,6 +7,7 @@
   // seem very useful, but remember it--if a function needs to provide an
   // iterator when the user does not pass one in, this will be handy.
   _.identity = function(val) {
+    return val;
   };
 
   /**
@@ -36,7 +37,24 @@
 
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
+  //array = [1, 2, 3, 4 ,5];
+  //last(array, 2);
+  //length = 5
+  //length - 2 = 3
+  //array.slice(3);
+  //push array[3];
+  //push array[4];
+
   _.last = function(array, n) {
+    if(n === 0) {
+      return [];
+    } else if(n > array.length) {
+       return array;
+    } else if(!n) {
+      return array[array.length - 1];
+    } else if(n) {
+      return array.slice(array.length - n);
+    }
   };
 
   // Call iterator(value, key, collection) for each element of collection.
@@ -45,6 +63,15 @@
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
   _.each = function(collection, iterator) {
+    if(Array.isArray(collection)) {
+      for(var i = 0; i < collection.length; i++) {
+        iterator(collection[i], i, collection);
+      }
+    } else if(typeof(collection) === 'object') {
+       for(var key in collection) {
+         iterator(collection[key], key, collection);
+       }
+      }
   };
 
   // Returns the index at which value can be found in the array, or -1 if value
@@ -66,6 +93,14 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    var truthArray = [];
+    for(var i = 0; i < collection.length; i++) {
+      if(test(collection[i])) {
+        truthArray.push(collection[i]);
+      }
+    }
+    return truthArray;
+
   };
 
   // Return all elements of an array that don't pass a truth test.
@@ -107,19 +142,19 @@
   // Reduces an array or object to a single value by repetitively calling
   // iterator(accumulator, item) for each item. accumulator should be
   // the return value of the previous iterator call.
-  //  
+  //
   // You can pass in a starting value for the accumulator as the third argument
   // to reduce. If no starting value is passed, the first element is used as
   // the accumulator, and is never passed to the iterator. In other words, in
   // the case where a starting value is not passed, the iterator is not invoked
   // until the second element, with the first element as its second argument.
-  //  
+  //
   // Example:
   //   var numbers = [1,2,3];
   //   var sum = _.reduce(numbers, function(total, number){
   //     return total + number;
   //   }, 0); // should be 6
-  //  
+  //
   //   var identity = _.reduce([5], function(total, number){
   //     return total + number * number;
   //   }); // should be 5, regardless of the iterator function passed in
