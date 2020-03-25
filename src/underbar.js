@@ -189,13 +189,15 @@
       var reduceValue = collection[0];
       if (accumulator !== undefined) {
         reduceValue = accumulator;
-        for (var i = 0; i < collection.length; i++) {
-          reduceValue = iterator(reduceValue, collection[i]);
-        }
+        _.each(collection, function(value) {
+          reduceValue = iterator(reduceValue, value);
+        })
       } else {
-        for(var i = 1; i < collection.length; i++) {
-          reduceValue = iterator(reduceValue, collection[i]);
-        }
+        var collection2 = collection.slice(1);
+        _.each(collection2, function(value){
+          reduceValue = iterator(reduceValue, value);
+
+        })
       }
 
       return reduceValue;
@@ -218,6 +220,15 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    iterator = iterator || _.identity;
+    var truth = _.reduce(collection, function(isFalse, val) {
+      return isFalse && iterator(val);
+    }, true);
+
+    if(truth) {
+      return true;
+    }
+    return false;
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
