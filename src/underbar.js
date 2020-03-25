@@ -105,13 +105,34 @@
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
+    return _.filter(collection, function(value) {
+      return !test(value);
+    })
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
-  };
+    var uniqs = [];
+
+    if(iterator) {
+      var iteratorValues = [];
+      for(var i = 0; i < array.length; i++) {
+        if(iteratorValues.indexOf(iterator(array[i])) === -1) {
+          iteratorValues.push(iterator(array[i]));
+          uniqs.push(array[i]);
+        }
+      }
+    } else {
+          for(var i = 0; i < array.length; i++) {
+            if(uniqs.indexOf(array[i]) === -1) {
+              uniqs.push(array[i]);
+            }
+          }
+        }
+    return uniqs;
+  }
 
 
   // Return the results of applying an iterator to each element.
@@ -119,6 +140,11 @@
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+     var mappedArray = [];
+     for (var i =0; i < collection.length; i++){
+       mappedArray.push(iterator(collection[i]));
+     }
+     return mappedArray;
   };
 
   /*
@@ -160,6 +186,20 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+      var reduceValue = collection[0];
+      if (accumulator !== undefined) {
+        reduceValue = accumulator;
+        for (var i = 0; i < collection.length; i++) {
+          reduceValue = iterator(reduceValue, collection[i]);
+        }
+      } else {
+        for(var i = 1; i < collection.length; i++) {
+          reduceValue = iterator(reduceValue, collection[i]);
+        }
+      }
+
+      return reduceValue;
+
   };
 
   // Determine if the array or object contains a given value (using `===`).
