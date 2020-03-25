@@ -399,7 +399,7 @@
           { name: 'curly', age: 50 }
         ];
 
-        expect(_.pluck(people, 'name')).to.equal(['moe', 'curly']);
+        expect(_.pluck(people, 'name')).to.eql(['moe', 'curly']);
       });
 
       it('should not modify the original array', function() {
@@ -410,7 +410,7 @@
 
         _.pluck(people, 'name');
 
-        expect(people).to.equal([{ name: 'moe', age: 30 }, { name: 'curly', age: 50 }]);
+        expect(people).to.eql([{ name: 'moe', age: 30 }, { name: 'curly', age: 50 }]);
       });
     });
 
@@ -459,8 +459,8 @@
           itemInCallback = item;
         }, 'memo');
 
-        expect(memoInCallback).to.equal('memo');
-        expect(itemInCallback).to.equal('item');
+        expect(memoInCallback).to.eql('memo');
+        expect(itemInCallback).to.eql('item');
       });
 
       it('should pass items of the array into the iterator from left to right', function() {
@@ -489,7 +489,7 @@
         };
 
         var total = _.reduce([1, 1, 2], returnFalsy);
-        expect(total).to.equal(3);
+        expect(total).to.eql(3);
       });
 
       it('should pass every item of the array into the iterator if a memo is passed in', function() {
@@ -497,7 +497,7 @@
           return memo - item;
         }, 10);
 
-        expect(result).to.equal(4);
+        expect(result).to.eql(4);
       });
 
       it('should pass accumulator as the first memo of the iterator', function() {
@@ -506,7 +506,7 @@
           return memo * item;
         }, 0);
 
-        expect(result).to.equal(0);
+        expect(result).to.eql(0);
       });
 
       it('should set memo to be the first item of the array if no memo is passed in', function() {
@@ -514,7 +514,7 @@
           return memo;
         });
 
-        expect(result).to.equal(1);
+        expect(result).to.eql(1);
       });
 
 
@@ -523,7 +523,7 @@
           return memo - item;
         });
 
-        expect(result).to.equal(0);
+        expect(result).to.eql(0);
       });
 
     });
